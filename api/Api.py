@@ -2,8 +2,7 @@ from flask import jsonify, request, Response
 class Api:
     def __init__(self, message: str = None, data = None):
         self.message = message
-        if data:
-            self.data = data
+        self.data = data
     
     def handle_preflight():
         if request.method == 'OPTIONS':
@@ -26,7 +25,7 @@ class Api:
         response.headers.add('Access-Control-Allow-Origin', '*')
         return response
 
-    def request(self):
+    def response(self):
         response = {'error': True, 'status': 200}
         return self.update_response(response)
     
