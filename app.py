@@ -1,8 +1,7 @@
 from flask import Flask
 from database import engine
 from sqlalchemy import text
-from controllers import userController
-from api import Api
+from api.api import Api
 from router import router
 from dotenv import load_dotenv
 
@@ -11,7 +10,7 @@ app = Flask(__name__)
 load_dotenv('/.env')
 @app.before_request
 def handle_before():
-    return Api.Api.handle_preflight()
+    return Api.handle_preflight()
 
 router.create_routes(app)
 
