@@ -9,7 +9,7 @@ class Api:
             response = Response()
             response.headers.add("Access-Control-Allow-Credentials", "true")
             response.headers.add("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")
-            response.headers.add("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers")
+            response.headers.add("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, authorization, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers")
             response.headers.add('Access-Control-Allow-Origin', '*')
             return response
     
@@ -26,7 +26,7 @@ class Api:
         return response
 
     def response(self):
-        response = {'error': True, 'status': 200}
+        response = {'error': False, 'status': 200}
         return self.update_response(response)
     
     def bad_request(self):
