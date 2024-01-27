@@ -119,6 +119,9 @@ class User():
             hunt_settings=bytes(json.dumps(hunt_settings), 'utf8'),
             spectated_users=bytes(json.dumps(spectated_users), 'utf8')
         )
-        updated_user = db.session.scalars(update_request)
+        updated_user = db.session.execute(update_request)
+        existed_user_request = select(user_model).where(user_model.id.in_([f"{decoded['id']}"]))
+        existed_user = db.session.execute(existed_user_request).scalar_one_or_none()
         print(updated_user)
+        print(existed_user)
         
