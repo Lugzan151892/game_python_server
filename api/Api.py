@@ -36,3 +36,7 @@ class Api:
     def internal(self):
         response = {'error': True, 'status': 500}
         return self.update_response(response)
+    
+    def system_error(self, message):
+        response = {'error': True, 'status': 401, 'system_message': message}
+        return self.update_response(response)
