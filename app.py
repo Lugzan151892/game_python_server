@@ -1,13 +1,15 @@
 from flask import Flask
-from database import engine
 from api.api import Api
 from router import router
 from dotenv import load_dotenv
-from sqlalchemy.orm import Session
+from models.models import db, Users
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://lugzan_hunt_py:lugzanHuntPy123456@lugzan.beget.tech/lugzan_hunt_py?charset=utf8mb4'
+db.init_app(app)
 
-connect = engine.connect()
+with app.app_context():
+    db.create_all()
 
 load_dotenv('/.env')
 @app.before_request

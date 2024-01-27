@@ -1,12 +1,13 @@
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.sql import func
 from sqlalchemy import DateTime, String, BLOB
+from flask_sqlalchemy import SQLAlchemy
 
 class Base(DeclarativeBase):
     pass
 
-class User(Base):
-    __tablename__ = "users"
+db = SQLAlchemy(model_class=Base)
+class Users(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True, nullable=False)
     username: Mapped[str] = mapped_column(String(50), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(String(250), nullable=False)
