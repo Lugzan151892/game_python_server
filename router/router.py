@@ -21,6 +21,11 @@ def define_user_router(app):
         view_func = User().get_user,
         methods=['GET']
     )
+    app.add_url_rule(
+        '/api/user/set',
+        view_func = User().save_user,
+        methods=['PUT']
+    )
 
 def create_routes(app):
     define_user_router(app)
