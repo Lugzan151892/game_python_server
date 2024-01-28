@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from models.models import db, Users
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://lugzan_hunt_py:lugzanHuntPy123456@lugzan.beget.tech/lugzan_hunt_py?charset=utf8mb4'
+app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://lugzan_hunt_py:lugzanHuntPy123456@lugzan.beget.tech/lugzan_hunt_py?charset=utf8mb4"
 db.init_app(app)
 
 with app.app_context():
