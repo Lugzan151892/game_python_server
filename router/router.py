@@ -1,5 +1,8 @@
 from controllers.userController import User
 
+def test():
+    return 'hello world'
+
 def define_user_router(app):
     app.add_url_rule(
         '/api/user/registration',
@@ -25,6 +28,11 @@ def define_user_router(app):
         '/api/user/set',
         view_func = User().save_user,
         methods=['PUT']
+    )
+    app.add_url_rule(
+        '/api/test',
+        view_func = test,
+        methods=['GET']
     )
 
 def create_routes(app):
