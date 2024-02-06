@@ -4,6 +4,7 @@ from router import router
 from dotenv import load_dotenv
 from models.models import db, Users
 import os
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 load_dotenv('/.env')
 
@@ -17,6 +18,10 @@ with app.app_context():
 @app.before_request
 def handle_before():
     return Api.handle_preflight()
+
+app.wsgi_app = ProxyFix(
+    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
+)
 
 router.create_routes(app)
 
