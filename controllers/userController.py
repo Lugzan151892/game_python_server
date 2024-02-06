@@ -1,6 +1,6 @@
 from sqlalchemy import select, update
 from flask import request
-from api.api import Api
+from api.Api import Api
 import bcrypt
 import jwt
 import json
