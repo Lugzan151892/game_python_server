@@ -1,5 +1,5 @@
 from flask import Flask
-from api.api import Api
+from api.Api import Api
 from router import router
 from dotenv import load_dotenv
 from models.models import db, Users
