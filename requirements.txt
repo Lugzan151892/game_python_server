@@ -5,3 +5,5 @@ bcrypt
 pyjwt
 python-dotenv
 Flask-SQLAlchemy
+gunicorn
+waitress
