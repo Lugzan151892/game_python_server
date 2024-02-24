@@ -1,4 +1,5 @@
 from controllers.userController import User
+from controllers.steamController import Steam
 
 def test():
     return 'hello world'
@@ -35,5 +36,18 @@ def define_user_router(app):
         methods=['GET']
     )
 
+def define_steam_router(app):
+    app.add_url_rule(
+        '/api/steam/steamid/get',
+        view_func = Steam().get_steam_html,
+        methods=['GET']
+    )
+    app.add_url_rule(
+        '/api/steam/list',
+        view_func = Steam().get_banned_users_data,
+        methods=['POST']
+    )
+
 def create_routes(app):
     define_user_router(app)
+    define_steam_router(app)
