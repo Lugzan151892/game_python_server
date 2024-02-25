@@ -6,6 +6,11 @@ import jwt
 import json
 import os
 from models.models import db, Users as user_model
+from decouple import config
+from controllers.steamController import Steam
+
+secret_db_key = config('SECRET_KEY')
+
 
 class User():
     def get_user_response(self, user):
@@ -34,7 +39,7 @@ class User():
         else:
             Api("Something went wrong").internal()
         response_user = self.get_user_response(created_user)
-        token = jwt.encode(response_user, "my-python-secret-key-for-database")
+        token = jwt.encode(response_user, secret_db_key)
         response = { "user": response_user, "token": token }
         return Api("User has been created", response).response()
     
@@ -53,7 +58,7 @@ class User():
         if not compare_passwords:
             return Api(f'User with username {username} not found').bad_request()
         response_user = self.get_user_response(existed_user)
-        token = jwt.encode(response_user, "my-python-secret-key-for-database")
+        token = jwt.encode(response_user, secret_db_key)
         response = { "user": response_user, "token": token }
         return Api("Successfully login", response).response()
     
@@ -64,7 +69,7 @@ class User():
         authtoken = authtoken.split()[1]
         if authtoken == 'undefined':
             return Api().system_error('Auth token not valid')
-        decoded = jwt.decode(authtoken, "my-python-secret-key-for-database", algorithms='HS256')
+        decoded = jwt.decode(authtoken, secret_db_key, algorithms='HS256')
         existed_user_request = select(user_model).where(user_model.username.in_([decoded['username']]))
         existed_user = db.session.execute(existed_user_request).scalar_one_or_none()
         if not existed_user:
@@ -72,7 +77,7 @@ class User():
         else:
             existed_user = existed_user.__dict__
         response_user = self.get_user_response(existed_user)
-        token = jwt.encode(response_user, "my-python-secret-key-for-database")
+        token = jwt.encode(response_user, secret_db_key)
         response = { "user": response_user, "token": token }
         return Api(data=response).response()
     
@@ -83,7 +88,7 @@ class User():
         authtoken = authtoken.split()[1]
         if authtoken == 'undefined':
             return Api().system_error('Auth token not valid')
-        decoded = jwt.decode(authtoken, "my-python-secret-key-for-database", algorithms='HS256')
+        decoded = jwt.decode(authtoken, secret_db_key, algorithms='HS256')
         existed_user_request = select(user_model).where(user_model.username.in_([f"{decoded['username']}"]))
         existed_user = db.session.execute(existed_user_request).scalar_one_or_none()
         if not existed_user:
@@ -100,7 +105,7 @@ class User():
             return Api('Не авторизован').bad_request()
         if authtoken == 'undefined':
             return Api().system_error('Auth token not valid')
-        decoded = jwt.decode(authtoken, "my-python-secret-key-for-database", algorithms='HS256')
+        decoded = jwt.decode(authtoken, secret_db_key, algorithms='HS256')
         existed_user_request = select(user_model).where(user_model.id.in_([f"{decoded['id']}"]))
         existed_user = db.session.execute(existed_user_request).scalar_one_or_none()
         if not existed_user:
@@ -117,4 +122,3 @@ class User():
         response_user = self.get_user_response(updated_user)
         response = { "user": response_user }
         return Api(data=response).response()
-        

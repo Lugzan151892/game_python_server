@@ -3,13 +3,13 @@ from api.Api import Api
 from router import router
 from dotenv import load_dotenv
 from models.models import db, Users
-import os
 from werkzeug.middleware.proxy_fix import ProxyFix
+from decouple import config
 
 load_dotenv('/.env')
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('DB_LINK')
+app.config["SQLALCHEMY_DATABASE_URI"] = config('DB_LINK')
 db.init_app(app)
 
 with app.app_context():
