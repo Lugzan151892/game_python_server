@@ -1,13 +1,11 @@
-from sqlalchemy import select, update
+from sqlalchemy import select
 from flask import request
 from api.Api import Api
 import bcrypt
 import jwt
 import json
-import os
 from models.models import db, Users as user_model
 from decouple import config
-from controllers.steamController import Steam
 
 secret_db_key = config('SECRET_KEY')
 
@@ -100,10 +98,11 @@ class User():
         return Api(data=response).response()
     
     def save_user(self):
-        authtoken = request.headers.get('authorization', type=str).split()[1]
+        authtoken = request.headers.get('authorization', type=str)
         if not authtoken:
             return Api('Не авторизован').bad_request()
-        if authtoken == 'undefined':
+        authtoken = authtoken.split()[1]
+        if authtoken == 'undefined' or not authtoken:
             return Api().system_error('Auth token not valid')
         decoded = jwt.decode(authtoken, secret_db_key, algorithms='HS256')
         existed_user_request = select(user_model).where(user_model.id.in_([f"{decoded['id']}"]))
