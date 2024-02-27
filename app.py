@@ -2,7 +2,6 @@ from flask import Flask
 from api.Api import Api
 from router import router
 from models.models import db, Users
-# from werkzeug.middleware.proxy_fix import ProxyFix
 from decouple import config
 
 app = Flask(__name__)
