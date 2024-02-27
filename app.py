@@ -1,12 +1,8 @@
 from flask import Flask
 from api.Api import Api
 from router import router
-from dotenv import load_dotenv
 from models.models import db, Users
-from werkzeug.middleware.proxy_fix import ProxyFix
 from decouple import config
-
-load_dotenv('/.env')
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = config('DB_LINK')
@@ -18,10 +14,6 @@ with app.app_context():
 @app.before_request
 def handle_before():
     return Api.handle_preflight()
-
-app.wsgi_app = ProxyFix(
-    app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
-)
 
 router.create_routes(app)
 
