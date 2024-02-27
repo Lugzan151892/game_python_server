@@ -16,10 +16,6 @@ with app.app_context():
 def handle_before():
     return Api.handle_preflight()
 
-# app.wsgi_app = ProxyFix(
-#     app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1
-# )
-
 router.create_routes(app)
 
 if __name__ == '__main__':
